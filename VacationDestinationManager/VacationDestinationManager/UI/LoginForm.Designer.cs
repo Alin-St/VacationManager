@@ -1,4 +1,4 @@
-﻿namespace VacationDestinationManager
+﻿namespace VacationDestinationManager.UI
 {
     partial class LoginForm
     {
@@ -141,6 +141,7 @@
             loginB.TabIndex = 4;
             loginB.Text = "Login";
             loginB.UseVisualStyleBackColor = true;
+            loginB.Click += LoginB_Click;
             // 
             // borderP
             // 
@@ -163,6 +164,8 @@
             Name = "LoginForm";
             Padding = new Padding(12);
             Text = "Login";
+            FormClosing += LoginForm_FormClosing;
+            Load += LoginForm_Load;
             mainTLP.ResumeLayout(false);
             mainTLP.PerformLayout();
             mainP.ResumeLayout(false);

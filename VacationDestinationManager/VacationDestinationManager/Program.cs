@@ -1,3 +1,5 @@
+using VacationDestinationManager.UI;
+
 namespace VacationDestinationManager
 {
     internal static class Program
