@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VacationDestinationManager", "VacationDestinationManager\VacationDestinationManager.csproj", "{D901095D-4F72-4ED2-887B-F4ECE2D0F77D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D901095D-4F72-4ED2-887B-F4ECE2D0F77D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D901095D-4F72-4ED2-887B-F4ECE2D0F77D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D901095D-4F72-4ED2-887B-F4ECE2D0F77D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D901095D-4F72-4ED2-887B-F4ECE2D0F77D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F8F1A4B-6CAD-4605-98D6-99C113E32716}
+	EndGlobalSection
+EndGlobal
