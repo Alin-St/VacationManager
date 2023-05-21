@@ -1,5 +1,6 @@
 ﻿using VacationDestinationManager.Domain;
 using VacationDestinationManager.ServiceLayer;
+using VacationDestinationManager.Utilities;
 
 namespace VacationDestinationManager.UI
 {
@@ -64,8 +65,11 @@ namespace VacationDestinationManager.UI
             cancelB.Enabled = _editing;
             removeB.Enabled = !_editing && selectedIndex >= 0;
 
+            clearB.Enabled = _editing;
+            selectB.Enabled = _editing;
+
             if (!_editing)
-                updateDisplayedEntity = false;
+                updateDisplayedEntity = true;
 
             // Update displayed entity.
             if (updateDisplayedEntity)
@@ -75,15 +79,45 @@ namespace VacationDestinationManager.UI
                     geolocationTB.Text = "";
                     titleTB.Text = "";
                     descriptionTB.Text = "";
-                    stayDateDTP.Text = "";
+                    stayDateDTP.Value = DateTime.Now;
+                    imagePB.Image = null;
                 }
                 else
                 {
-                    geolocationTB.Text = _destinations[selectedIndex].Geolocation;
-                    titleTB.Text = _destinations[selectedIndex].Title;
-                    descriptionTB.Text = _destinations[selectedIndex].Description;
-                    stayDateDTP.Text = _destinations[selectedIndex].StayDate.ToString();
+                    var destination = _destinations[selectedIndex];
+
+                    geolocationTB.Text = destination.Geolocation;
+                    titleTB.Text = destination.Title;
+                    descriptionTB.Text = destination.Description;
+                    stayDateDTP.Text = destination.StayDate.ToString();
+
+                    if (destination.Image is null || destination.Image.Length == 0)
+                        imagePB.Image = null;
+                    else
+                    {
+                        using var memoryStream = new MemoryStream(destination.Image);
+                        imagePB.Image = Image.FromStream(memoryStream);
+                    }
                 }
+            }
+        }
+
+        private void ClearB_Click(object sender, EventArgs e)
+        {
+            imagePB.Image = null;
+        }
+
+        private void SelectB_Click(object sender, EventArgs e)
+        {
+            using var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg;*.gif;*.bmp)|*.png;*.jpg;*.jpeg;*.gif;*.bmp";
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+                Image selectedImage = Image.FromFile(selectedImagePath);
+                imagePB.Image = selectedImage;
             }
         }
 
@@ -114,7 +148,7 @@ namespace VacationDestinationManager.UI
                     "admin",
                     geolocationTB.Text,
                     titleTB.Text,
-                    Array.Empty<byte>(),
+                    Utility.ImageToBytes(imagePB.Image),
                     descriptionTB.Text,
                     stayDateDTP.Value);
             }
@@ -127,7 +161,7 @@ namespace VacationDestinationManager.UI
                     selectedItem.Id,
                     geolocationTB.Text,
                     titleTB.Text,
-                    Array.Empty<byte>(),
+                    Utility.ImageToBytes(imagePB.Image),
                     descriptionTB.Text,
                     stayDateDTP.Value);
             }

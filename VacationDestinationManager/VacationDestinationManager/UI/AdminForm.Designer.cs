@@ -42,7 +42,7 @@
             descriptionTB = new TextBox();
             stayDateDTP = new DateTimePicker();
             label5 = new Label();
-            pictureBox1 = new PictureBox();
+            imagePB = new PictureBox();
             addItemB = new Button();
             editB = new Button();
             okB = new Button();
@@ -53,11 +53,18 @@
             label6 = new Label();
             tableLayoutPanel3 = new TableLayoutPanel();
             panel1 = new Panel();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            splitContainer1 = new SplitContainer();
+            selectB = new Button();
+            clearB = new Button();
+            ((System.ComponentModel.ISupportInitialize)imagePB).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
             SuspendLayout();
             // 
             // destinationsLV
@@ -69,7 +76,7 @@
             destinationsLV.Location = new Point(3, 32);
             destinationsLV.MultiSelect = false;
             destinationsLV.Name = "destinationsLV";
-            destinationsLV.Size = new Size(361, 188);
+            destinationsLV.Size = new Size(351, 194);
             destinationsLV.TabIndex = 0;
             destinationsLV.UseCompatibleStateImageBehavior = false;
             destinationsLV.View = View.Details;
@@ -100,7 +107,7 @@
             geolocationTB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             geolocationTB.Location = new Point(83, 3);
             geolocationTB.Name = "geolocationTB";
-            geolocationTB.Size = new Size(275, 23);
+            geolocationTB.Size = new Size(265, 23);
             geolocationTB.TabIndex = 1;
             // 
             // label1
@@ -148,7 +155,7 @@
             titleTB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             titleTB.Location = new Point(83, 32);
             titleTB.Name = "titleTB";
-            titleTB.Size = new Size(275, 23);
+            titleTB.Size = new Size(265, 23);
             titleTB.TabIndex = 6;
             // 
             // descriptionTB
@@ -156,7 +163,7 @@
             descriptionTB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             descriptionTB.Location = new Point(83, 61);
             descriptionTB.Name = "descriptionTB";
-            descriptionTB.Size = new Size(275, 23);
+            descriptionTB.Size = new Size(265, 23);
             descriptionTB.TabIndex = 7;
             // 
             // stayDateDTP
@@ -164,34 +171,36 @@
             stayDateDTP.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             stayDateDTP.Location = new Point(83, 90);
             stayDateDTP.Name = "stayDateDTP";
-            stayDateDTP.Size = new Size(275, 23);
+            stayDateDTP.Size = new Size(265, 23);
             stayDateDTP.TabIndex = 8;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(392, 15);
+            label5.Location = new Point(6, 6);
             label5.Name = "label5";
             label5.Size = new Size(54, 20);
             label5.TabIndex = 9;
             label5.Text = "Image:";
             // 
-            // pictureBox1
+            // imagePB
             // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(392, 39);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(343, 348);
-            pictureBox1.TabIndex = 10;
-            pictureBox1.TabStop = false;
+            imagePB.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            imagePB.BorderStyle = BorderStyle.FixedSingle;
+            imagePB.Location = new Point(6, 32);
+            imagePB.Name = "imagePB";
+            imagePB.Size = new Size(368, 354);
+            imagePB.SizeMode = PictureBoxSizeMode.Zoom;
+            imagePB.TabIndex = 10;
+            imagePB.TabStop = false;
             // 
             // addItemB
             // 
+            addItemB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             addItemB.Location = new Point(3, 3);
             addItemB.Name = "addItemB";
-            addItemB.Size = new Size(66, 23);
+            addItemB.Size = new Size(64, 23);
             addItemB.TabIndex = 11;
             addItemB.Text = "Add Item";
             addItemB.UseVisualStyleBackColor = true;
@@ -199,9 +208,10 @@
             // 
             // editB
             // 
-            editB.Location = new Point(75, 3);
+            editB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            editB.Location = new Point(73, 3);
             editB.Name = "editB";
-            editB.Size = new Size(66, 23);
+            editB.Size = new Size(64, 23);
             editB.TabIndex = 12;
             editB.Text = "Edit";
             editB.UseVisualStyleBackColor = true;
@@ -209,9 +219,10 @@
             // 
             // okB
             // 
-            okB.Location = new Point(147, 3);
+            okB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            okB.Location = new Point(143, 3);
             okB.Name = "okB";
-            okB.Size = new Size(66, 23);
+            okB.Size = new Size(64, 23);
             okB.TabIndex = 13;
             okB.Text = "OK";
             okB.UseVisualStyleBackColor = true;
@@ -219,9 +230,10 @@
             // 
             // cancelB
             // 
-            cancelB.Location = new Point(219, 3);
+            cancelB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cancelB.Location = new Point(213, 3);
             cancelB.Name = "cancelB";
-            cancelB.Size = new Size(66, 23);
+            cancelB.Size = new Size(64, 23);
             cancelB.TabIndex = 14;
             cancelB.Text = "Cancel";
             cancelB.UseVisualStyleBackColor = true;
@@ -229,9 +241,10 @@
             // 
             // removeB
             // 
-            removeB.Location = new Point(291, 3);
+            removeB.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            removeB.Location = new Point(283, 3);
             removeB.Name = "removeB";
-            removeB.Size = new Size(67, 23);
+            removeB.Size = new Size(65, 23);
             removeB.TabIndex = 15;
             removeB.Text = "Remove";
             removeB.UseVisualStyleBackColor = true;
@@ -252,12 +265,12 @@
             tableLayoutPanel1.Controls.Add(editB, 1, 0);
             tableLayoutPanel1.Controls.Add(cancelB, 3, 0);
             tableLayoutPanel1.Controls.Add(okB, 2, 0);
-            tableLayoutPanel1.Location = new Point(3, 354);
+            tableLayoutPanel1.Location = new Point(3, 360);
             tableLayoutPanel1.Margin = new Padding(3, 6, 3, 3);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(361, 29);
+            tableLayoutPanel1.Size = new Size(351, 29);
             tableLayoutPanel1.TabIndex = 16;
             // 
             // tableLayoutPanel2
@@ -275,7 +288,7 @@
             tableLayoutPanel2.Controls.Add(geolocationTB, 1, 0);
             tableLayoutPanel2.Controls.Add(descriptionTB, 1, 2);
             tableLayoutPanel2.Controls.Add(titleTB, 1, 1);
-            tableLayoutPanel2.Location = new Point(3, 229);
+            tableLayoutPanel2.Location = new Point(3, 235);
             tableLayoutPanel2.Margin = new Padding(3, 6, 3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 4;
@@ -283,7 +296,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.Size = new Size(361, 116);
+            tableLayoutPanel2.Size = new Size(351, 116);
             tableLayoutPanel2.TabIndex = 17;
             // 
             // label6
@@ -295,42 +308,82 @@
             label6.Location = new Point(3, 0);
             label6.Margin = new Padding(3, 0, 3, 6);
             label6.Name = "label6";
-            label6.Size = new Size(361, 23);
+            label6.Size = new Size(351, 23);
             label6.TabIndex = 18;
             label6.Text = "Public Destinations";
             label6.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel3
             // 
-            tableLayoutPanel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             tableLayoutPanel3.ColumnCount = 1;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.Controls.Add(label6, 0, 0);
             tableLayoutPanel3.Controls.Add(tableLayoutPanel1, 0, 3);
             tableLayoutPanel3.Controls.Add(tableLayoutPanel2, 0, 2);
             tableLayoutPanel3.Controls.Add(destinationsLV, 0, 1);
-            tableLayoutPanel3.Location = new Point(7, 7);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(0, 0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 4;
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
-            tableLayoutPanel3.Size = new Size(367, 386);
+            tableLayoutPanel3.Size = new Size(357, 392);
             tableLayoutPanel3.TabIndex = 19;
             // 
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(tableLayoutPanel3);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(label5);
+            panel1.Controls.Add(splitContainer1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(24, 24);
             panel1.Name = "panel1";
             panel1.Padding = new Padding(4);
             panel1.Size = new Size(752, 402);
             panel1.TabIndex = 20;
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(4, 4);
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(tableLayoutPanel3);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(imagePB);
+            splitContainer1.Panel2.Controls.Add(selectB);
+            splitContainer1.Panel2.Controls.Add(label5);
+            splitContainer1.Panel2.Controls.Add(clearB);
+            splitContainer1.Size = new Size(742, 392);
+            splitContainer1.SplitterDistance = 357;
+            splitContainer1.TabIndex = 22;
+            // 
+            // selectB
+            // 
+            selectB.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            selectB.Location = new Point(299, 6);
+            selectB.Name = "selectB";
+            selectB.Size = new Size(75, 23);
+            selectB.TabIndex = 21;
+            selectB.Text = "Select";
+            selectB.UseVisualStyleBackColor = true;
+            selectB.Click += SelectB_Click;
+            // 
+            // clearB
+            // 
+            clearB.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            clearB.Location = new Point(218, 6);
+            clearB.Name = "clearB";
+            clearB.Size = new Size(75, 23);
+            clearB.TabIndex = 20;
+            clearB.Text = "Clear";
+            clearB.UseVisualStyleBackColor = true;
+            clearB.Click += ClearB_Click;
             // 
             // AdminForm
             // 
@@ -342,14 +395,18 @@
             Padding = new Padding(24);
             Text = "AdminForm";
             Load += AdminForm_Load;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imagePB).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -369,7 +426,7 @@
         private TextBox descriptionTB;
         private DateTimePicker stayDateDTP;
         private Label label5;
-        private PictureBox pictureBox1;
+        private PictureBox imagePB;
         private Button addItemB;
         private Button editB;
         private Button okB;
@@ -380,5 +437,8 @@
         private Label label6;
         private TableLayoutPanel tableLayoutPanel3;
         private Panel panel1;
+        private SplitContainer splitContainer1;
+        private Button selectB;
+        private Button clearB;
     }
 }

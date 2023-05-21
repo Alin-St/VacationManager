@@ -1,4 +1,6 @@
-﻿using VacationDestinationManager.Domain;
+﻿using CsvHelper;
+using System.Globalization;
+using VacationDestinationManager.Domain;
 
 namespace VacationDestinationManager.RepositoryLayer
 {
@@ -6,14 +8,10 @@ namespace VacationDestinationManager.RepositoryLayer
     {
         private readonly MemoryRepository<TEntity> _memoryRepository = new();
         private readonly string _filename;
-        private readonly Func<List<string>, TEntity> _csvToEntity;
-        private readonly Func<TEntity, List<string>> _entityToCsv;
 
-        public CsvRepository(string filename, Func<List<string>, TEntity> propertyListToEntity, Func<TEntity, List<string>> entityToPropertyList)
+        public CsvRepository(string filename)
         {
             _filename = filename;
-            _csvToEntity = propertyListToEntity;
-            _entityToCsv = entityToPropertyList;
         }
 
         public int Count => _memoryRepository.Count;
@@ -35,28 +33,25 @@ namespace VacationDestinationManager.RepositoryLayer
 
         public void LoadFromFile()
         {
-            var fileContent = File.Exists(_filename) ? File.ReadAllText(_filename) : "";
-            var lines = fileContent.Split(new[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+            // Clear previous entities if any.
+            var ids = _memoryRepository.GetAll().Select(e => e.Id).ToList();
+            ids.ForEach(id => _memoryRepository.Remove(id));
 
-            foreach (var line in lines)
-            {
-                var properties = line.Split(',').ToList();
-                var entity = _csvToEntity(properties);
-                _memoryRepository.Add(entity);
-            }
+            // Add new data from file.
+            if (!File.Exists(_filename))
+                return;
+
+            using var reader = new StreamReader(_filename);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            var entities = csv.GetRecords<TEntity>().ToList();
+            entities.ForEach(e => _memoryRepository.Add(e));
         }
 
         public void SaveToFile()
         {
-            string fileContent = "";
-            foreach (var entity in _memoryRepository.GetAll())
-            {
-                var properties = _entityToCsv(entity);
-                var line = string.Join(',', properties);
-                fileContent += line + Environment.NewLine;
-            }
-
-            File.WriteAllText(_filename, fileContent);
+            using var writer = new StreamWriter(_filename);
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            csv.WriteRecords(_memoryRepository.GetAll());
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using VacationDestinationManager.Domain;
+using VacationDestinationManager.Properties;
 using VacationDestinationManager.RepositoryLayer;
 using VacationDestinationManager.ServiceLayer;
+using VacationDestinationManager.Utilities;
 
 namespace VacationDestinationManager
 {
     internal class ApplicationManager
     {
-        static DestinationCsvRepository? _destinationRepository;
+        static CsvRepository<Destination>? _destinationRepository;
         static DestinationService? _destinationService;
 
         public static void InitializeAll()
@@ -15,7 +17,7 @@ namespace VacationDestinationManager
                 return;
 
             var destinationCsvPath = Path.Combine(Application.LocalUserAppDataPath, "destinations.csv");
-            _destinationRepository = new DestinationCsvRepository(destinationCsvPath);
+            _destinationRepository = new CsvRepository<Destination>(destinationCsvPath);
 
             _destinationRepository.LoadFromFile();
             _destinationService = new DestinationService(_destinationRepository);
@@ -55,7 +57,7 @@ namespace VacationDestinationManager
                 Username: "john_doe",
                 Geolocation: "New York, USA",
                 Title: "Exploring the Big Apple",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._1_new_york),
                 Description: "A trip to New York City, exploring the iconic landmarks and enjoying the bustling atmosphere.",
                 StayDate: new DateTime(2023, 6, 15)
             );
@@ -67,7 +69,7 @@ namespace VacationDestinationManager
                 Username: "traveler123",
                 Geolocation: "Paris, France",
                 Title: "Romantic Getaway in Paris",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._2_paris),
                 Description: "A romantic vacation in the City of Love, visiting the Eiffel Tower, strolling along the Seine, and savoring delicious French cuisine.",
                 StayDate: new DateTime(2023, 7, 5)
             );
@@ -79,7 +81,7 @@ namespace VacationDestinationManager
                 Username: "adventure_junkie",
                 Geolocation: "Cape Town, South Africa",
                 Title: "Thrilling Safari Experience",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._3_cape_town),
                 Description: "Embarking on an unforgettable safari adventure in Cape Town, exploring the diverse wildlife and breathtaking landscapes.",
                 StayDate: new DateTime(2023, 8, 10)
             );
@@ -91,7 +93,7 @@ namespace VacationDestinationManager
                 Username: "wanderlust_adventurer",
                 Geolocation: "Bali, Indonesia",
                 Title: "Island Paradise in Bali",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._4_bali),
                 Description: "A tropical escape to Bali, enjoying pristine beaches, lush rice terraces, and immersing in the rich cultural heritage.",
                 StayDate: new DateTime(2023, 9, 20)
             );
@@ -103,7 +105,7 @@ namespace VacationDestinationManager
                 Username: "mountain_explorer",
                 Geolocation: "Zermatt, Switzerland",
                 Title: "Conquering the Swiss Alps",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._5_zermatt),
                 Description: "An exhilarating mountain adventure in Zermatt, Switzerland, climbing majestic peaks and enjoying breathtaking alpine scenery.",
                 StayDate: new DateTime(2023, 10, 8)
             );
@@ -115,7 +117,7 @@ namespace VacationDestinationManager
                 Username: "history_buff",
                 Geolocation: "Rome, Italy",
                 Title: "Journey through Ancient Rome",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._6_rome),
                 Description: "Immersing in the history of Rome, exploring ancient ruins, visiting the Colosseum, and indulging in authentic Italian cuisine.",
                 StayDate: new DateTime(2023, 11, 15)
             );
@@ -127,7 +129,7 @@ namespace VacationDestinationManager
                 Username: "beachlover",
                 Geolocation: "Phuket, Thailand",
                 Title: "Relaxing Beach Retreat",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._7_phuket),
                 Description: "Unwinding on the pristine beaches of Phuket, Thailand, enjoying turquoise waters, water sports, and vibrant nightlife.",
                 StayDate: new DateTime(2023, 12, 5)
             );
@@ -139,7 +141,7 @@ namespace VacationDestinationManager
                 Username: "nature_enthusiast",
                 Geolocation: "Banff National Park, Canada",
                 Title: "Exploring the Canadian Rockies",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._8_banff_national_park),
                 Description: "Discovering the natural beauty of Banff National Park, hiking scenic trails, spotting wildlife, and marveling at stunning mountain landscapes.",
                 StayDate: new DateTime(2024, 1, 10)
             );
@@ -151,7 +153,7 @@ namespace VacationDestinationManager
                 Username: "cultural_explorer",
                 Geolocation: "Kyoto, Japan",
                 Title: "Japanese Cultural Immersion",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._9_kyoto),
                 Description: "Immersing in the rich cultural heritage of Kyoto, exploring ancient temples, experiencing traditional tea ceremonies, and enjoying cherry blossoms.",
                 StayDate: new DateTime(2024, 2, 20)
             );
@@ -163,10 +165,11 @@ namespace VacationDestinationManager
                 Username: "foodie_traveler",
                 Geolocation: "Barcelona, Spain",
                 Title: "Gastronomic Delights in Barcelona",
-                Image: Array.Empty<byte>(),
+                Image: Utility.ImageToBytes(Resources._10_barcelona),
                 Description: "Indulging in the culinary delights of Barcelona, savoring tapas, paella, and visiting vibrant food markets like La Boqueria.",
                 StayDate: new DateTime(2024, 3, 15)
             );
+            destinations.Add(destination10);
 
             destinations.ForEach(d => _destinationService.Add(d));
         }
