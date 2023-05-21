@@ -53,7 +53,7 @@ namespace VacationDestinationManager.RepositoryLayer
             {
                 var properties = _entityToCsv(entity);
                 var line = string.Join(',', properties);
-                fileContent += line;
+                fileContent += line + Environment.NewLine;
             }
 
             File.WriteAllText(_filename, fileContent);

@@ -64,12 +64,16 @@
             // 
             destinationsLV.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             destinationsLV.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
+            destinationsLV.FullRowSelect = true;
+            destinationsLV.GridLines = true;
             destinationsLV.Location = new Point(3, 32);
+            destinationsLV.MultiSelect = false;
             destinationsLV.Name = "destinationsLV";
             destinationsLV.Size = new Size(361, 188);
             destinationsLV.TabIndex = 0;
             destinationsLV.UseCompatibleStateImageBehavior = false;
             destinationsLV.View = View.Details;
+            destinationsLV.SelectedIndexChanged += DestinationsLV_SelectedIndexChanged;
             // 
             // columnHeader1
             // 
