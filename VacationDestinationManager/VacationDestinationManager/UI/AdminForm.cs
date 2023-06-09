@@ -30,7 +30,7 @@ namespace VacationDestinationManager.UI
 
         void RefreshDestinations()
         {
-            _destinations = _service!.GetAll().ToList();
+            _destinations = _service!.GetAll().Where(d => d.Username == "admin").ToList();
             destinationsLV.Items.Clear();
 
             foreach (var destination in _destinations)

@@ -6,6 +6,9 @@
                                 string Title,
                                 byte[] Image,
                                 string Description,
-                                DateTime StayDate) : IEntity
-    { }
+                                DateTime StayDate) : IEntity<int>
+    {
+        public int GetKey()
+            => Id;
+    }
 }

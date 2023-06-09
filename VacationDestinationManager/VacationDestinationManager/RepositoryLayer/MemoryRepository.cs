@@ -2,41 +2,46 @@
 
 namespace VacationDestinationManager.RepositoryLayer
 {
-    internal class MemoryRepository<TEntity> : IRepository<TEntity> where TEntity : IEntity
+    internal class MemoryRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : IEntity<TKey> where TKey : notnull
     {
-        private readonly List<TEntity> _entities = new();
+        readonly Dictionary<TKey, TEntity> _entities = new();
 
         public int Count => _entities.Count;
 
         public void Add(TEntity entity)
         {
-            _entities.Add(entity);
+            if (_entities.ContainsKey(entity.GetKey()))
+                throw new InvalidOperationException("An entity with the same key already exists.");
+
+            _entities.Add(entity.GetKey(), entity);
         }
 
-        public TEntity? FindById(int id)
+        public TEntity? FindByKey(TKey key)
         {
-            return _entities.Find(x => x.Id == id);
+            _ = _entities.TryGetValue(key, out var entity);
+            return entity;
         }
 
-        public void Update(int id, TEntity newEntity)
+        public void Update(TKey key, TEntity newEntity)
         {
-            int ind = _entities.FindIndex(x => x.Id == id);
-            if (ind < 0)
-                throw new InvalidOperationException("Id not found.");
-            _entities[ind] = newEntity;
+            if (!_entities.ContainsKey(key))
+                throw new InvalidOperationException("Key not found.");
+
+            if (!key.Equals(newEntity.GetKey()))
+                throw new InvalidOperationException("Cannot update an entity's key.");
+
+            _entities[key] = newEntity;
         }
 
-        public void Remove(int id)
+        public void Remove(TKey key)
         {
-            int ind = _entities.FindIndex(x => x.Id == id);
-            if (ind < 0)
-                throw new InvalidOperationException("Id not found.");
-            _entities.RemoveAt(ind);
+            if (!_entities.Remove(key))
+                throw new InvalidOperationException("Key not found.");
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IReadOnlyCollection<TEntity> GetAll()
         {
-            return _entities;
+            return _entities.Values;
         }
     }
 }

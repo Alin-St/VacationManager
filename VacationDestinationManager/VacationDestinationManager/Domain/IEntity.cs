@@ -1,7 +1,7 @@
 ﻿namespace VacationDestinationManager.Domain
 {
-    internal interface IEntity
+    internal interface IEntity<TKey> where TKey : notnull
     {
-        public int Id { get; }
+        public TKey GetKey();
     }
 }

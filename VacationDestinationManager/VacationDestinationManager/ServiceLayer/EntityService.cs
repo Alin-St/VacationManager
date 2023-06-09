@@ -3,11 +3,11 @@ using VacationDestinationManager.RepositoryLayer;
 
 namespace VacationDestinationManager.ServiceLayer
 {
-    internal class EntityService<TEntity> where TEntity : IEntity
+    internal class EntityService<TEntity, TKey> where TEntity : IEntity<TKey> where TKey : notnull
     {
-        protected readonly IRepository<TEntity> _repository;
+        protected readonly IRepository<TEntity, TKey> _repository;
 
-        public EntityService(IRepository<TEntity> repository)
+        public EntityService(IRepository<TEntity, TKey> repository)
         {
             _repository = repository;
         }
@@ -17,24 +17,16 @@ namespace VacationDestinationManager.ServiceLayer
         public void Add(TEntity entity)
             => _repository.Add(entity);
 
-        public TEntity? FindById(int id)
-            => _repository.FindById(id);
+        public TEntity? FindByKey(TKey key)
+            => _repository.FindByKey(key);
 
-        public void Update(int id,  TEntity newEntity)
-            => _repository.Update(id, newEntity);
+        public void Update(TKey key,  TEntity newEntity)
+            => _repository.Update(key, newEntity);
 
-        public void Remove(int id)
-            => _repository.Remove(id);
+        public void Remove(TKey key)
+            => _repository.Remove(key);
 
         public IEnumerable<TEntity> GetAll()
             => _repository.GetAll();
-
-        public int GetFreeId()
-        {
-            int id = 1;
-            while (_repository.FindById(id) is not null)
-                id++;
-            return id;
-        }
     }
 }

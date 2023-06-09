@@ -4,9 +4,9 @@ using VacationDestinationManager.Domain;
 
 namespace VacationDestinationManager.RepositoryLayer
 {
-    internal class CsvRepository<TEntity> : IRepository<TEntity> where TEntity : IEntity
+    internal class CsvRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : IEntity<TKey> where TKey : notnull
     {
-        private readonly MemoryRepository<TEntity> _memoryRepository = new();
+        private MemoryRepository<TEntity, TKey> _memoryRepository = new();
         private readonly string _filename;
 
         public CsvRepository(string filename)
@@ -19,39 +19,48 @@ namespace VacationDestinationManager.RepositoryLayer
         public void Add(TEntity entity)
             => _memoryRepository.Add(entity);
 
-        public TEntity? FindById(int id)
-            => _memoryRepository.FindById(id);
+        public TEntity? FindByKey(TKey key)
+            => _memoryRepository.FindByKey(key);
 
-        public void Update(int id, TEntity entity)
-            => _memoryRepository.Update(id, entity);
+        public void Update(TKey key, TEntity entity)
+            => _memoryRepository.Update(key, entity);
 
-        public void Remove(int id)
-            => _memoryRepository.Remove(id);
+        public void Remove(TKey key)
+            => _memoryRepository.Remove(key);
 
-        public IEnumerable<TEntity> GetAll()
+        public IReadOnlyCollection<TEntity> GetAll()
             => _memoryRepository.GetAll();
 
         public void LoadFromFile()
         {
-            // Clear previous entities if any.
-            var ids = _memoryRepository.GetAll().Select(e => e.Id).ToList();
-            ids.ForEach(id => _memoryRepository.Remove(id));
+            // Add new data from file in a new repo.
+            var newMemoryRepository = new MemoryRepository<TEntity, TKey>();
 
-            // Add new data from file.
             if (!File.Exists(_filename))
                 return;
 
             using var reader = new StreamReader(_filename);
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
             var entities = csv.GetRecords<TEntity>().ToList();
-            entities.ForEach(e => _memoryRepository.Add(e));
+            entities.ForEach(newMemoryRepository.Add);
+
+            // Update the repository if everything was successful.
+            _memoryRepository = newMemoryRepository;
         }
 
         public void SaveToFile()
         {
-            using var writer = new StreamWriter(_filename);
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.WriteRecords(_memoryRepository.GetAll());
+            // Get the repository content in csv format.
+            string repositoryContent;
+            using (var stringWriter = new StringWriter())
+            {
+                using (var csvWriter = new CsvWriter(stringWriter, CultureInfo.InvariantCulture))
+                    csvWriter.WriteRecords(_memoryRepository.GetAll());
+                repositoryContent = stringWriter.ToString();
+            }
+
+            // Save the repository to the file if everything was successful.
+            File.WriteAllText(_filename, repositoryContent);
         }
     }
 }

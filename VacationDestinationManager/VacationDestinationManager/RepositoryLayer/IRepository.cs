@@ -2,13 +2,13 @@
 
 namespace VacationDestinationManager.RepositoryLayer
 {
-    internal interface IRepository<TEntity> where TEntity : IEntity
+    internal interface IRepository<TEntity, TKey> where TEntity : IEntity<TKey> where TKey : notnull
     {
         int Count { get; }
         void Add(TEntity entity);
-        TEntity? FindById(int id);
-        void Update(int id, TEntity entity);
-        void Remove(int id);
-        IEnumerable<TEntity> GetAll();
+        TEntity? FindByKey(TKey key);
+        void Update(TKey key, TEntity entity);
+        void Remove(TKey key);
+        IReadOnlyCollection<TEntity> GetAll();
     }
 }

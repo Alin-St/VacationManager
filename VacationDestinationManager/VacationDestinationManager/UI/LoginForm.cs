@@ -1,3 +1,5 @@
+using VacationDestinationManager.Utilities;
+
 namespace VacationDestinationManager.UI
 {
     public partial class LoginForm : Form
@@ -36,30 +38,18 @@ namespace VacationDestinationManager.UI
 
         private void LoginB_Click(object sender, EventArgs e)
         {
-            // Read user login data.
-            string loginData = File.ReadAllText(Path.Combine(Application.LocalUserAppDataPath, "loginData.csv"));
-            var lines = loginData.Split(new[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-
-            var users = lines.Select(line =>
-            {
-                var values = line.Split(',');
-                if (values.Length != 2)
-                    throw new InvalidOperationException("Invalid login data.");
-                return (username: values[0], password: values[1]);
-            });
-
-            if (!users.Any(u => u.username == "admin"))
-                throw new InvalidOperationException("No admin found.");
-
             // Check credentials.
-            if (!users.Any(u => u.username == usernameTB.Text))
+            var userService = ApplicationManager.GetUserService();
+
+            var user = userService.FindByKey(usernameTB.Text);
+            if (user is null)
             {
                 MessageBox.Show("User " + usernameTB.Text + " not found!", "Error:");
                 return;
             }
 
-            var (username, password) = users.First(u => u.username == usernameTB.Text);
-            if (password != passwordTB.Text)
+            var hashedPassword = Utility.HashStringSha256(passwordTB.Text);
+            if (!user.PasswordHash.SequenceEqual(hashedPassword))
             {
                 MessageBox.Show("Incorrect password!", "Error;");
                 return;
@@ -68,10 +58,10 @@ namespace VacationDestinationManager.UI
             // Open corresponding form.
             Form newForm;
 
-            if (username == "admin")
+            if (usernameTB.Text == "admin")
                 newForm = new AdminForm();
             else
-                newForm = new ClientForm() { Username = username };
+                newForm = new ClientForm() { Username = usernameTB.Text };
 
             newForm.Show();
             newForm.FormClosed += (_, _) => this.Close();
