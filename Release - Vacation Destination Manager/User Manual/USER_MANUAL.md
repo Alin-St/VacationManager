@@ -41,3 +41,19 @@ You can edit a destination by selecting it from the list and clicking "Edit". Th
 When you select a destination from the list it will be displayed in detail. You cannot select another destination while you are editing or adding a destination.
 
 In order to remove a destination you must select it from the list, then click "Remove".
+
+### Employee
+
+If you login as an employee the regular user window will open:
+
+![Regular user screen](pictures/picture03.PNG)
+
+In this window you can edit your private destinations in the same way you edit public destinations as an admin. The main difference is that here you are presented with another list, the list of public destinations (on the left). When you select an item from this list, you have the option to add it to your list of private destinations (as a copy). This feature may save you the time of adding the destination to the list yourself.
+
+Note that you cannot modify the public destination list from this window, only the private list.
+
+### File saving
+
+The application will load the required data on startup. All the changes (adding a destination, editing, removing) are saved when the application closes.
+
+When saving a destination with a picture selected from the computer, a copy of that picture will be saved into the application files. You don't need to keep the original image.
